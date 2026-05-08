@@ -1392,17 +1392,62 @@ function updateMoney() {
 	}
 }
 
+function playDiceSound() {
+	var AudioContext = window.AudioContext || window.webkitAudioContext;
+
+	if (!AudioContext) {
+		return;
+	}
+
+	var audioContext = new AudioContext();
+	var now = audioContext.currentTime;
+	var diceTicks = [0, 0.08, 0.16, 0.24];
+
+	for (var i = 0; i < diceTicks.length; i++) {
+		var oscillator = audioContext.createOscillator();
+		var gain = audioContext.createGain();
+		var start = now + diceTicks[i];
+
+		oscillator.type = "triangle";
+		oscillator.frequency.setValueAtTime(190 + (i * 35), start);
+		gain.gain.setValueAtTime(0.001, start);
+		gain.gain.exponentialRampToValueAtTime(0.18, start + 0.01);
+		gain.gain.exponentialRampToValueAtTime(0.001, start + 0.07);
+
+		oscillator.connect(gain);
+		gain.connect(audioContext.destination);
+		oscillator.start(start);
+		oscillator.stop(start + 0.08);
+	}
+
+	window.setTimeout(function() {
+		audioContext.close();
+	}, 450);
+}
+
+function animateDiceElement(element) {
+	element.classList.remove("die-roll");
+
+	void element.offsetWidth;
+
+	element.classList.add("die-roll");
+}
+
 function updateDice() {
 	var die0 = game.getDie(1);
 	var die1 = game.getDie(2);
+	var element0 = document.getElementById("die0");
+	var element1 = document.getElementById("die1");
+
+	playDiceSound();
 
 	$("#die0").show();
 	$("#die1").show();
 
-	if (document.images) {
-		var element0 = document.getElementById("die0");
-		var element1 = document.getElementById("die1");
+	animateDiceElement(element0);
+	animateDiceElement(element1);
 
+	if (document.images) {
 		element0.classList.remove("die-no-img");
 		element1.classList.remove("die-no-img");
 
@@ -1425,13 +1470,13 @@ function updateDice() {
 		}
 
 		element1.src = "images/Die_" + die1 + ".png";
-		element1.alt = die0;
+		element1.alt = die1;
 	} else {
-		document.getElementById("die0").textContent = die0;
-		document.getElementById("die1").textContent = die1;
+		element0.textContent = die0;
+		element1.textContent = die1;
 
-		document.getElementById("die0").title = "Die";
-		document.getElementById("die1").title = "Die";
+		element0.title = "Die";
+		element1.title = "Die";
 	}
 }
 
