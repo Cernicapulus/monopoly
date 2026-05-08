@@ -1,5 +1,6 @@
 body {
-	background: #FFFFFF;
+	background: radial-gradient(circle at top left, #fff7d6 0%, #f9fafb 34%, #dff7f2 100%);
+	color: #10233f;
 	margin: 0px;
 	min-width: 1075px;
 }
@@ -63,19 +64,29 @@ td {
 
 #board {
 	display: none;
-	border: 2px solid black;
-	border-spacing: 3px;
-	margin: 25px;
+	border: 8px solid #10233f;
+	border-radius: 22px;
+	border-spacing: 6px;
+	box-shadow: 0 22px 55px rgba(16, 35, 63, 0.25);
 	float: left;
+	margin: 25px;
+	overflow: hidden;
 }
 
 #jail {
-	border: 1px solid black;
+	background: repeating-linear-gradient(135deg, #f97316 0 12px, #fff7ed 12px 24px);
+	border: 4px solid #111827;
+	border-radius: 14px;
+	box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.55);
+	font-size: 18px;
+	font-weight: 900;
 	height: 65px;
-	width: 65px;
+	letter-spacing: 0.08em;
 	position: relative;
+	text-transform: uppercase;
 	top: 73px;
 	left: -73px;
+	width: 65px;
 	z-index: 2;
 }
 
@@ -85,10 +96,12 @@ td {
 	z-index: 9;
 	top: 250px;
 	left: 250px;
-	border: 2px solid black;
-	padding: 10px;
+	border: 3px solid #10233f;
+	border-radius: 16px;
+	box-shadow: 0 14px 35px rgba(16, 35, 63, 0.2);
+	padding: 12px;
 	display: none;
-	background-color: white;
+	background-color: rgba(255, 255, 255, 0.96);
 }
 
 #quickstats {
@@ -106,11 +119,13 @@ td {
 }
 
 #landed {
-	padding: 3px;
-	border: 1px solid gray;
+	padding: 8px 3px;
+	border: 1px solid #cbd5e1;
 	border-top: none;
 	width: 302px;
 
+	font-size: 15px;
+	font-weight: bold;
 	margin: 0px;
 	text-align: center;
 }
@@ -570,46 +585,149 @@ td {
 }
 
 .cell {
-	position: relative;
-	top: 0px;
-	left: 0px;
-	padding: 0px;
-	vertical-align: bottom;
+	--cell-color: #FFFFFF;
+	background-color: #ffffff;
 	background-repeat: no-repeat;
 	background-size: auto 40px;
+	border: 2px solid #10233f;
+	border-radius: 12px;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.85), 0 3px 0 rgba(16, 35, 63, 0.12);
+	box-sizing: border-box;
+	left: 0px;
+	overflow: hidden;
+	padding: 0px;
+	position: relative;
+	top: 0px;
+	vertical-align: bottom;
 }
 
 .board-center {
-	width: 675px;
+	background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(59, 130, 246, 0.18)), #f8fafc;
 	border: none;
+	position: relative;
 	vertical-align: bottom;
-	background-repeat: no-repeat;
-	background-size: auto 40px;
+	width: 765px;
 }
 
+
 .board-corner {
-	width: 102px;
-	height: 102px;
+	height: 120px;
+	width: 120px;
 }
 
 .board-top {
-	width: 72px;
-	height: 102px;
+	height: 120px;
+	width: 82px;
 }
 
 .board-bottom {
-	width: 72px;
-	height: 102px;
+	height: 120px;
+	width: 82px;
 }
 
 .board-left {
-	width: 102px;
-	height: 72px;
+	height: 82px;
+	width: 120px;
 }
 
 .board-right {
-	width: 102px;
-	height: 72px;
+	height: 82px;
+	width: 120px;
+}
+
+.property-square::before {
+	background: var(--cell-color);
+	box-shadow: 0 2px 0 rgba(16, 35, 63, 0.18);
+	content: "";
+	position: absolute;
+	z-index: 0;
+}
+
+.board-top.property-square::before {
+	height: 24px;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+}
+
+.board-bottom.property-square::before {
+	bottom: 0px;
+	height: 24px;
+	left: 0px;
+	width: 100%;
+}
+
+.board-left.property-square::before {
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	width: 24px;
+}
+
+.board-right.property-square::before {
+	height: 100%;
+	right: 0px;
+	top: 0px;
+	width: 24px;
+}
+
+.chance-square {
+	background: linear-gradient(160deg, #fff7ed 0%, #fed7aa 100%);
+}
+
+.community-square {
+	background: linear-gradient(160deg, #eff6ff 0%, #bfdbfe 100%);
+}
+
+.railroad-square {
+	background: linear-gradient(160deg, #f8fafc 0%, #cbd5e1 100%);
+}
+
+.utility-square {
+	background: linear-gradient(160deg, #ecfeff 0%, #a5f3fc 100%);
+}
+
+.tax-square {
+	background: linear-gradient(160deg, #fef2f2 0%, #fecaca 100%);
+}
+
+.corner-square {
+	background: linear-gradient(160deg, #fef3c7 0%, #ffffff 60%, #bbf7d0 100%);
+}
+
+.chance-square::after,
+.community-square::after,
+.railroad-square::after,
+.utility-square::after,
+.tax-square::after {
+	font-size: 28px;
+	left: 50%;
+	opacity: 0.75;
+	position: absolute;
+	top: 34%;
+	transform: translate(-50%, -50%);
+}
+
+.chance-square::after {
+	content: "?";
+	font-size: 42px;
+	font-weight: 900;
+}
+
+.community-square::after {
+	content: "★";
+}
+
+.railroad-square::after {
+	content: "🚂";
+}
+
+.utility-square::after {
+	content: "⚡";
+}
+
+.tax-square::after {
+	content: "💵";
 }
 
 .enlarge {
@@ -736,34 +854,91 @@ td {
 }
 
 .cell-anchor {
-	width: 100%;
-	height: 100%;
-	position: relative;
 	bottom: 0px;
+	height: 100%;
 	left: 0px;
+	position: relative;
+	width: 100%;
 }
 
 .cell-name {
-	position: absolute;
-	bottom: 0px;
+	bottom: 19px;
+	box-sizing: border-box;
+	color: #10233f;
+	font-size: 13px;
+	font-weight: 900;
 	left: 0px;
+	letter-spacing: 0.01em;
+	line-height: 1.08;
+	padding: 0px 5px;
+	position: absolute;
 	text-align: center;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+	text-transform: uppercase;
 	width: 100%;
+	z-index: 2;
+}
+
+.board-left .cell-name,
+.board-right .cell-name {
+	bottom: 22px;
+	font-size: 12px;
+	padding: 0px 25px;
+}
+
+.board-corner .cell-name {
+	bottom: 32px;
+	font-size: 18px;
+}
+
+.cell-price {
+	background: rgba(16, 35, 63, 0.9);
+	border-radius: 999px;
+	bottom: 4px;
+	box-sizing: border-box;
+	color: white;
+	font-size: 13px;
+	font-weight: 900;
+	left: 50%;
+	line-height: 1;
+	padding: 4px 8px;
+	position: absolute;
+	transform: translateX(-50%);
+	z-index: 2;
+}
+
+.board-bottom.property-square .cell-price {
+	bottom: 30px;
+}
+
+.board-bottom.property-square .cell-name {
+	bottom: 49px;
+}
+
+.board-left.property-square .cell-name {
+	padding-left: 31px;
+}
+
+.board-right.property-square .cell-name {
+	padding-right: 31px;
 }
 
 .cell-position-holder {
-	width: 100%;
 	height: 100%;
-	z-index: 1;
 	position: relative;
+	width: 100%;
+	z-index: 3;
 }
 
 .cell-position {
-	height: 12px;
-	width: 12px;
+	border: 2px solid white;
+	border-radius: 999px;
+	box-shadow: 0 1px 4px rgba(16, 35, 63, 0.45);
+	height: 16px;
+	left: 0px;
 	position: absolute;
 	top: 0px;
-	left: 0px;
+	width: 16px;
 }
 
 .cell-owner {
@@ -781,7 +956,7 @@ td {
 
 
 	top: -25px;
-	width: 72px;
+	width: 82px;
 
 }
 
@@ -795,13 +970,13 @@ td {
 
 
 	left: 0px;
-	width: 72px;
+	width: 82px;
 }
 
 .board-left .cell-owner {
 	background-image: url("images/vert-bar.png");
 
-	height: 68px;
+	height: 78px;
 	left: -25px;
 
 
@@ -814,7 +989,7 @@ td {
 .board-right .cell-owner {
 	background-image: url("images/vert-bar.png");
 
-	height: 68px;
+	height: 78px;
 	right: -25px;
 
 
