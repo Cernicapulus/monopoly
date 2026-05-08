@@ -558,17 +558,56 @@ td {
 
 .die {
 	display: none;
-	margin: 5px;
 	float: left;
+	margin: 5px;
+	transform-origin: center;
+}
+
+.die img {
+	display: block;
+}
+
+.die-roll {
+	animation: dice-roll 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .die-no-img {
-
-
 	border-radius: 6px;
 	font-weight: bold;
 	border: 2px solid black;
 	padding: 5px 10px;
+}
+
+@keyframes dice-roll {
+	0% {
+		transform: translate(0, 0) rotate(0deg) scale(1);
+	}
+
+	20% {
+		transform: translate(7px, -8px) rotate(86deg) scale(1.08);
+	}
+
+	40% {
+		transform: translate(-6px, 5px) rotate(176deg) scale(0.96);
+	}
+
+	60% {
+		transform: translate(5px, -4px) rotate(262deg) scale(1.06);
+	}
+
+	80% {
+		transform: translate(-3px, 2px) rotate(334deg) scale(0.99);
+	}
+
+	100% {
+		transform: translate(0, 0) rotate(360deg) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.die-roll {
+		animation-duration: 1ms;
+	}
 }
 .house {
 	width: 25px;
