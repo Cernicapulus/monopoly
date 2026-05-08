@@ -47,25 +47,25 @@ function corrections() {
 }
 
 function utiltext() {
-	return '&nbsp;&nbsp;&nbsp;&nbsp;If one "Utility" is owned rent is 4 times amount shown on dice.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;If both "Utilitys" are owned rent is 10 times amount shown on dice.';
+	return '&nbsp;&nbsp;&nbsp;&nbsp;Si se posee un servicio, el alquiler es 4 veces la suma de los dados.<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;Si se poseen ambos servicios, el alquiler es 10 veces la suma de los dados.';
 }
 
 function transtext() {
-	return '<div style="font-size: 14px; line-height: 1.5;">Rent<span style="float: right;">$25.</span><br />If 2 Railroads are owned<span style="float: right;">50.</span><br />If 3 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">100.</span><br />If 4 &nbsp; &nbsp; " &nbsp; &nbsp; " &nbsp; &nbsp; "<span style="float: right;">200.</span></div>';
+	return '<div style="font-size: 14px; line-height: 1.5;">Alquiler<span style="float: right;">$25.</span><br />Si se poseen 2 ferrocarriles<span style="float: right;">50.</span><br />Si se poseen 3<span style="float: right;">100.</span><br />Si se poseen 4<span style="float: right;">200.</span></div>';
 }
 
 function luxurytax() {
-	addAlert(player[turn].name + " paid $100 for landing on Luxury Tax.");
+	addAlert(player[turn].name + " pagó $100 por caer en Impuesto de lujo.");
 	player[turn].pay(100, 0);
 
-	$("#landed").show().text("You landed on Luxury Tax. Pay $100.");
+	$("#landed").show().text("Caíste en Impuesto de lujo. Paga $100.");
 }
 
 function citytax() {
-	addAlert(player[turn].name + " paid $200 for landing on City Tax.");
+	addAlert(player[turn].name + " pagó $200 por caer en Impuesto municipal.");
 	player[turn].pay(200, 0);
 
-	$("#landed").show().text("You landed on City Tax. Pay $200.");
+	$("#landed").show().text("Caíste en Impuesto municipal. Paga $200.");
 }
 
 var square = [];
@@ -114,37 +114,37 @@ square[39] = new Square("Boardwalk", "$400", "#0000FF", 400, 10, 50, 200, 600, 1
 var communityChestCards = [];
 var chanceCards = [];
 
-communityChestCards[0] = new Card("Get out of Jail, Free. This card may be kept until needed or sold.", function(p) { p.communityChestJailCard = true; updateOwned();});
-communityChestCards[1] = new Card("You have won second prize in a beauty contest. Collect $10.", function() { addamount(10, 'Community Chest');});
-communityChestCards[2] = new Card("From sale of stock, you get $50.", function() { addamount(50, 'Community Chest');});
-communityChestCards[3] = new Card("Life insurance matures. Collect $100.", function() { addamount(100, 'Community Chest');});
-communityChestCards[4] = new Card("Income tax refund. Collect $20.", function() { addamount(20, 'Community Chest');});
-communityChestCards[5] = new Card("Holiday fund matures. Receive $100.", function() { addamount(100, 'Community Chest');});
-communityChestCards[6] = new Card("You inherit $100.", function() { addamount(100, 'Community Chest');});
-communityChestCards[7] = new Card("Receive $25 consultancy fee.", function() { addamount(25, 'Community Chest');});
-communityChestCards[8] = new Card("Pay hospital fees of $100.", function() { subtractamount(100, 'Community Chest');});
-communityChestCards[9] = new Card("Bank error in your favor. Collect $200.", function() { addamount(200, 'Community Chest');});
-communityChestCards[10] = new Card("Pay school fees of $50.", function() { subtractamount(50, 'Community Chest');});
-communityChestCards[11] = new Card("Doctor's fee. Pay $50.", function() { subtractamount(50, 'Community Chest');});
-communityChestCards[12] = new Card("It is your birthday. Collect $10 from every player.", function() { collectfromeachplayer(10, 'Community Chest');});
-communityChestCards[13] = new Card("Advance to \"GO\" (Collect $200).", function() { advance(0);});
-communityChestCards[14] = new Card("You are assessed for street repairs. $40 per house. $115 per hotel.", function() { streetrepairs(40, 115);});
-communityChestCards[15] = new Card("Go to Jail. Go directly to Jail. Do not pass \"GO\". Do not collect $200.", function() { gotojail();});
+communityChestCards[0] = new Card("Sal gratis de la cárcel. Puedes conservar esta tarjeta hasta usarla o venderla.", function(p) { p.communityChestJailCard = true; updateOwned();});
+communityChestCards[1] = new Card("Ganaste el segundo premio en un concurso de belleza. Cobra $10.", function() { addamount(10, 'Community Chest');});
+communityChestCards[2] = new Card("Por venta de acciones recibes $50.", function() { addamount(50, 'Community Chest');});
+communityChestCards[3] = new Card("Vence tu seguro de vida. Cobra $100.", function() { addamount(100, 'Community Chest');});
+communityChestCards[4] = new Card("Devolución de impuestos. Cobra $20.", function() { addamount(20, 'Community Chest');});
+communityChestCards[5] = new Card("Vence tu fondo de vacaciones. Recibe $100.", function() { addamount(100, 'Community Chest');});
+communityChestCards[6] = new Card("Heredas $100.", function() { addamount(100, 'Community Chest');});
+communityChestCards[7] = new Card("Recibe $25 por honorarios de consultoría.", function() { addamount(25, 'Community Chest');});
+communityChestCards[8] = new Card("Paga $100 de gastos hospitalarios.", function() { subtractamount(100, 'Community Chest');});
+communityChestCards[9] = new Card("Error bancario a tu favor. Cobra $200.", function() { addamount(200, 'Community Chest');});
+communityChestCards[10] = new Card("Paga $50 de colegiatura.", function() { subtractamount(50, 'Community Chest');});
+communityChestCards[11] = new Card("Honorarios médicos. Paga $50.", function() { subtractamount(50, 'Community Chest');});
+communityChestCards[12] = new Card("Es tu cumpleaños. Cobra $10 de cada jugador.", function() { collectfromeachplayer(10, 'Community Chest');});
+communityChestCards[13] = new Card("Avanza a \"SALIDA\" (cobra $200).", function() { advance(0);});
+communityChestCards[14] = new Card("Se te cobran reparaciones de calles. $40 por casa. $115 por hotel.", function() { streetrepairs(40, 115);});
+communityChestCards[15] = new Card("Ve a la cárcel. Ve directamente a la cárcel. No pases por \"SALIDA\". No cobres $200.", function() { gotojail();});
 
 
-chanceCards[0] = new Card("GET OUT OF JAIL FREE. This card may be kept until needed or traded.", function(p) { p.chanceJailCard=true; updateOwned();});
-chanceCards[1] = new Card("Make General Repairs on All Your Property. For each house pay $25. For each hotel $100.", function() { streetrepairs(25, 100);});
-chanceCards[2] = new Card("Speeding fine $15.", function() { subtractamount(15, 'Chance');});
-chanceCards[3] = new Card("You have been elected chairman of the board. Pay each player $50.", function() { payeachplayer(50, 'Chance');});
-chanceCards[4] = new Card("Go back three spaces.", function() { gobackthreespaces();});
-chanceCards[5] = new Card("ADVANCE TO THE NEAREST UTILITY. IF UNOWNED, you may buy it from the Bank. IF OWNED, throw dice and pay owner a total ten times the amount thrown.", function() { advanceToNearestUtility();});
-chanceCards[6] = new Card("Bank pays you dividend of $50.", function() { addamount(50, 'Chance');});
-chanceCards[7] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function() { advanceToNearestRailroad();});
-chanceCards[8] = new Card("Pay poor tax of $15.", function() { subtractamount(15, 'Chance');});
-chanceCards[9] = new Card("Take a trip to Reading Rail Road. If you pass \"GO\" collect $200.", function() { advance(5);});
-chanceCards[10] = new Card("ADVANCE to Boardwalk.", function() { advance(39);});
-chanceCards[11] = new Card("ADVANCE to Illinois Avenue. If you pass \"GO\" collect $200.", function() { advance(24);});
-chanceCards[12] = new Card("Your building loan matures. Collect $150.", function() { addamount(150, 'Chance');});
-chanceCards[13] = new Card("ADVANCE TO THE NEAREST RAILROAD. If UNOWNED, you may buy it from the Bank. If OWNED, pay owner twice the rental to which they are otherwise entitled.", function() { advanceToNearestRailroad();});
-chanceCards[14] = new Card("ADVANCE to St. Charles Place. If you pass \"GO\" collect $200.", function() { advance(11);});
-chanceCards[15] = new Card("Go to Jail. Go Directly to Jail. Do not pass \"GO\". Do not collect $200.", function() { gotojail();});
+chanceCards[0] = new Card("SAL GRATIS DE LA CÁRCEL. Puedes conservar esta tarjeta hasta usarla o intercambiarla.", function(p) { p.chanceJailCard=true; updateOwned();});
+chanceCards[1] = new Card("Haz reparaciones generales en todas tus propiedades. Paga $25 por casa y $100 por hotel.", function() { streetrepairs(25, 100);});
+chanceCards[2] = new Card("Multa por exceso de velocidad: $15.", function() { subtractamount(15, 'Chance');});
+chanceCards[3] = new Card("Has sido elegido presidente de la junta. Paga $50 a cada jugador.", function() { payeachplayer(50, 'Chance');});
+chanceCards[4] = new Card("Retrocede tres casillas.", function() { gobackthreespaces();});
+chanceCards[5] = new Card("AVANZA AL SERVICIO MÁS CERCANO. Si no tiene dueño, puedes comprárselo al banco. Si tiene dueño, lanza los dados y paga al propietario diez veces la suma obtenida.", function() { advanceToNearestUtility();});
+chanceCards[6] = new Card("El banco te paga $50 de dividendos.", function() { addamount(50, 'Chance');});
+chanceCards[7] = new Card("AVANZA AL FERROCARRIL MÁS CERCANO. Si no tiene dueño, puedes comprárselo al banco. Si tiene dueño, paga al propietario el doble del alquiler correspondiente.", function() { advanceToNearestRailroad();});
+chanceCards[8] = new Card("Paga impuesto de pobreza de $15.", function() { subtractamount(15, 'Chance');});
+chanceCards[9] = new Card("Viaja al Ferrocarril Reading. Si pasas por \"SALIDA\", cobra $200.", function() { advance(5);});
+chanceCards[10] = new Card("AVANZA a Boardwalk.", function() { advance(39);});
+chanceCards[11] = new Card("AVANZA a Illinois Avenue. Si pasas por \"SALIDA\", cobra $200.", function() { advance(24);});
+chanceCards[12] = new Card("Vence tu préstamo de construcción. Cobra $150.", function() { addamount(150, 'Chance');});
+chanceCards[13] = new Card("AVANZA AL FERROCARRIL MÁS CERCANO. Si no tiene dueño, puedes comprárselo al banco. Si tiene dueño, paga al propietario el doble del alquiler correspondiente.", function() { advanceToNearestRailroad();});
+chanceCards[14] = new Card("AVANZA a St. Charles Place. Si pasas por \"SALIDA\", cobra $200.", function() { advance(11);});
+chanceCards[15] = new Card("Ve a la cárcel. Ve directamente a la cárcel. No pases por \"SALIDA\". No cobres $200.", function() { gotojail();});
