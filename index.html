@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Monopoly</title>
+	<title>Renta Urbana - juego tipo Monopoly</title>
 	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -241,9 +241,27 @@
 	</div>
 
 	<div id="setup">
-		<div style="margin-bottom: 20px;">
-			Select number of players.
-			<select id="playernumber" title="Select the number of players for the game.">
+		<div id="game-intro">
+			<p class="eyebrow">Juego de mesa web</p>
+			<h1>Renta Urbana</h1>
+			<p class="intro-copy">Compra calles, cobra alquileres, negocia propiedades y lleva a tus rivales a la bancarrota en una partida tipo Monopoly para 2 a 8 jugadores.</p>
+			<div class="intro-actions">
+				<input type="button" value="Partida rápida" onclick="quickStartGame();" title="Configura 2 jugadores humanos y 2 IA para empezar de inmediato." />
+				<span>o personaliza la partida abajo.</span>
+			</div>
+		</div>
+
+		<div id="rules-summary" aria-label="Resumen de reglas">
+			<div class="rule-card"><strong>1. Lanza</strong><span>Tira los dados y avanza por el tablero.</span></div>
+			<div class="rule-card"><strong>2. Compra</strong><span>Adquiere propiedades libres o participa en subastas.</span></div>
+			<div class="rule-card"><strong>3. Cobra</strong><span>Construye casas y hoteles para aumentar tus rentas.</span></div>
+			<div class="rule-card"><strong>4. Gana</strong><span>Gestiona deudas hasta que solo quede un jugador solvente.</span></div>
+		</div>
+
+		<div class="setup-panel">
+			<div class="setup-row setup-player-count">
+				<label for="playernumber">Número de jugadores</label>
+				<select id="playernumber" title="Selecciona el número de jugadores de la partida.">
 				<option>2</option>
 				<option>3</option>
 				<option selected="selected">4</option>
@@ -251,8 +269,8 @@
 				<option>6</option>
 				<option>7</option>
 				<option>8</option>
-			</select>
-		</div>
+				</select>
+			</div>
 
 		<div id="player1input" class="player-input">
 			Player 1: <input type="text" id="player1name" title="Player name" maxlength="16" value="Player 1" />
@@ -462,11 +480,12 @@
 			</select>
 		</div>
 
-		<div style="margin: 20px 0px;">
-			<input type="button" value="Start Game" onclick="setup();" title="Begin playing." />
+		<div class="start-row">
+			<input type="button" value="Iniciar partida" onclick="setup();" title="Comenzar a jugar." />
 		</div>
 
-		<div id="noF5">Note: Refreshing this page or navigating away from it may end your game without warning.</div>
+		<div id="noF5">Nota: refrescar la página o navegar fuera de ella puede terminar tu partida sin previo aviso.</div>
+		</div>
 	</div>
 
 	<div id="control">

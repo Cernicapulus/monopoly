@@ -2682,6 +2682,32 @@ function getCheckedProperty() {
 	// updateOption();
 // }
 
+function quickStartGame() {
+	document.getElementById("playernumber").value = "4";
+	playernumber_onchange();
+
+	var quickPlayers = [
+		{name: "Arquitecta", color: "Yellow", ai: "0"},
+		{name: "Banquero", color: "Blue", ai: "0"},
+		{name: "Constructora IA", color: "Red", ai: "1"},
+		{name: "Inversor IA", color: "Lime", ai: "1"}
+	];
+
+	for (var i = 0; i < quickPlayers.length; i++) {
+		var playerNumber = i + 1;
+		var playerConfig = quickPlayers[i];
+		var nameInput = document.getElementById("player" + playerNumber + "name");
+		var aiSelect = document.getElementById("player" + playerNumber + "ai");
+
+		nameInput.value = playerConfig.name;
+		document.getElementById("player" + playerNumber + "color").value = playerConfig.color;
+		aiSelect.value = playerConfig.ai;
+		nameInput.disabled = playerConfig.ai !== "0";
+	}
+
+	setup();
+}
+
 function playernumber_onchange() {
 	pcount = parseInt(document.getElementById("playernumber").value, 10);
 

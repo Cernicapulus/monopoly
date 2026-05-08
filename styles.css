@@ -823,3 +823,138 @@ td {
 	width: 15px;
 
 }
+
+#game-intro {
+	background: linear-gradient(135deg, #133c55 0%, #0f766e 100%);
+	border-radius: 18px;
+	box-shadow: 0 14px 35px rgba(15, 60, 85, 0.22);
+	box-sizing: border-box;
+	color: white;
+	margin-bottom: 18px;
+	max-width: 760px;
+	padding: 28px 32px;
+}
+
+#game-intro .eyebrow {
+	font-size: 12px;
+	font-weight: bold;
+	letter-spacing: 0.18em;
+	margin: 0 0 8px;
+	text-transform: uppercase;
+}
+
+#game-intro h1 {
+	font-family: Arial, sans-serif;
+	font-size: 44px;
+	line-height: 1;
+	margin: 0 0 12px;
+}
+
+.intro-copy {
+	font-size: 17px;
+	line-height: 1.45;
+	margin: 0;
+	max-width: 640px;
+}
+
+.intro-actions {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 22px;
+}
+
+.intro-actions input,
+.start-row input {
+	background: #f8c537;
+	border: 0;
+	border-radius: 999px;
+	box-shadow: 0 4px 0 #b98512;
+	color: #1f2933;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 10px 18px;
+}
+
+.intro-actions input:hover,
+.start-row input:hover {
+	background: #ffd767;
+}
+
+#rules-summary {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: repeat(4, minmax(140px, 1fr));
+	margin-bottom: 18px;
+	max-width: 960px;
+}
+
+.rule-card {
+	background: #fff7df;
+	border: 1px solid #f0d795;
+	border-radius: 12px;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+	min-height: 92px;
+	padding: 14px;
+}
+
+.rule-card strong,
+.rule-card span {
+	display: block;
+}
+
+.rule-card strong {
+	color: #7a4c00;
+	font-size: 15px;
+	margin-bottom: 8px;
+}
+
+.rule-card span {
+	color: #374151;
+	line-height: 1.35;
+}
+
+.setup-panel {
+	background: #f8fafc;
+	border: 1px solid #dbe3ea;
+	border-radius: 14px;
+	box-sizing: border-box;
+	max-width: 760px;
+	padding: 18px;
+}
+
+.setup-row {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.setup-row label {
+	font-weight: bold;
+}
+
+.player-input {
+	background: white;
+	border: 1px solid #e5e7eb;
+	border-radius: 10px;
+	box-sizing: border-box;
+	margin: 8px 0;
+	padding: 10px;
+}
+
+.start-row {
+	margin: 20px 0px;
+}
+
+@media (max-width: 900px) {
+	body {
+		min-width: 0;
+	}
+
+	#rules-summary {
+		grid-template-columns: repeat(2, minmax(140px, 1fr));
+	}
+}
