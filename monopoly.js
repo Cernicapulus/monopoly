@@ -2812,6 +2812,24 @@ window.onload = function() {
 		s = square[i];
 
 		currentCell = document.getElementById("cell" + i);
+		currentCell.style.setProperty("--cell-color", s.color || "#FFFFFF");
+		currentCell.classList.add("board-square");
+
+		if (s.groupNumber >= 3) {
+			currentCell.classList.add("property-square");
+		} else if (s.groupNumber === 1) {
+			currentCell.classList.add("railroad-square");
+		} else if (s.groupNumber === 2) {
+			currentCell.classList.add("utility-square");
+		} else if (s.name === "Chance") {
+			currentCell.classList.add("chance-square");
+		} else if (s.name === "Community Chest") {
+			currentCell.classList.add("community-square");
+		} else if (s.name.indexOf("Tax") !== -1 || s.name.indexOf("TAX") !== -1) {
+			currentCell.classList.add("tax-square");
+		} else {
+			currentCell.classList.add("corner-square");
+		}
 
 		currentCellAnchor = currentCell.appendChild(document.createElement("div"));
 		currentCellAnchor.id = "cell" + i + "anchor";
@@ -2826,6 +2844,13 @@ window.onload = function() {
 		currentCellName.id = "cell" + i + "name";
 		currentCellName.className = "cell-name";
 		currentCellName.textContent = s.name;
+
+		if (s.pricetext && s.price) {
+			var currentCellPrice = currentCellAnchor.appendChild(document.createElement("div"));
+			currentCellPrice.id = "cell" + i + "price";
+			currentCellPrice.className = "cell-price";
+			currentCellPrice.textContent = s.pricetext;
+		}
 
 		if (square[i].groupNumber) {
 			currentCellOwner = currentCellAnchor.appendChild(document.createElement("div"));
