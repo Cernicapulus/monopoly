@@ -1278,6 +1278,111 @@ function popup(HTML, action, option) {
 }
 
 
+
+function buildPlayerPositionToken(playerIndex, left, top) {
+	var currentPlayer = player[playerIndex];
+	var classes = "cell-position";
+
+	if (playerIndex === turn) {
+		classes += " cell-position-active";
+	}
+
+	return "<div class='" + classes + "' title='" + currentPlayer.name + "' style='background-color: " + currentPlayer.color + "; left: " + left + "px; top: " + top + "px;'></div>";
+}
+
+function setMovementInProgress(isMoving) {
+	var nextButton = document.getElementById("nextbutton");
+
+	if (nextButton) {
+		nextButton.disabled = isMoving;
+	}
+}
+
+function movePlayerStepByStep(activePlayer, spaces, onComplete) {
+	var remainingSpaces = spaces;
+	var movementDelay = 220;
+
+	setMovementInProgress(true);
+
+	function finishMovement() {
+		setMovementInProgress(false);
+
+		if (typeof onComplete === "function") {
+			onComplete();
+		}
+	}
+
+	if (!spaces || spaces < 1) {
+		finishMovement();
+		return;
+	}
+
+	function moveOneSquare() {
+		activePlayer.position++;
+
+		if (activePlayer.position >= 40) {
+			activePlayer.position = 0;
+			activePlayer.money += 200;
+			addAlert(activePlayer.name + " collected a $200 salary for passing GO.");
+			updateMoney();
+		}
+
+		updatePosition();
+		remainingSpaces--;
+
+		if (remainingSpaces > 0) {
+			window.setTimeout(moveOneSquare, movementDelay);
+		} else {
+			finishMovement();
+		}
+	}
+
+	window.setTimeout(moveOneSquare, movementDelay);
+}
+
+function positionBoardDiceTray() {
+	var board = document.getElementById("board");
+	var tray = document.getElementById("board-dice-tray");
+
+	if (!board || !tray) {
+		return;
+	}
+
+	var boardRect = board.getBoundingClientRect();
+
+	tray.style.left = (boardRect.left + (boardRect.width / 2)) + "px";
+	tray.style.top = (boardRect.top + (boardRect.height / 2)) + "px";
+}
+
+function animateBoardDice(die0, die1) {
+	var tray = document.getElementById("board-dice-tray");
+	var boardDie0 = document.getElementById("board-die0");
+	var boardDie1 = document.getElementById("board-die1");
+
+	if (!tray || !boardDie0 || !boardDie1) {
+		return;
+	}
+
+	positionBoardDiceTray();
+
+	boardDie0.src = "images/Die_" + die0 + ".png";
+	boardDie0.alt = die0;
+	boardDie0.title = "Die (" + die0 + " spots)";
+	boardDie1.src = "images/Die_" + die1 + ".png";
+	boardDie1.alt = die1;
+	boardDie1.title = "Die (" + die1 + " spots)";
+
+	tray.classList.remove("board-dice-roll");
+	void tray.offsetWidth;
+	tray.classList.add("board-dice-roll");
+	tray.style.display = "flex";
+
+	window.clearTimeout(tray.hideTimeout);
+	tray.hideTimeout = window.setTimeout(function() {
+		tray.style.display = "none";
+	}, 1400);
+}
+
 function updatePosition() {
 	// Reset borders
 	document.getElementById("jail").style.border = "1px solid black";
@@ -1299,7 +1404,7 @@ function updatePosition() {
 
 			if (player[y].position == x && !player[y].jail) {
 
-				document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + "; left: " + left + "px; top: " + top + "px;'></div>";
+				document.getElementById("cell" + x + "positionholder").innerHTML += buildPlayerPositionToken(y, left, top);
 				if (left == 36) {
 					left = 0;
 					top = 12;
@@ -1311,7 +1416,7 @@ function updatePosition() {
 		for (var y = 1; y < turn; y++) {
 
 			if (player[y].position == x && !player[y].jail) {
-				document.getElementById("cell" + x + "positionholder").innerHTML += "<div class='cell-position' title='" + player[y].name + "' style='background-color: " + player[y].color + "; left: " + left + "px; top: " + top + "px;'></div>";
+				document.getElementById("cell" + x + "positionholder").innerHTML += buildPlayerPositionToken(y, left, top);
 				if (left == 36) {
 					left = 0;
 					top = 12;
@@ -1325,7 +1430,7 @@ function updatePosition() {
 	top = 53;
 	for (var i = turn; i <= pcount; i++) {
 		if (player[i].jail) {
-			document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + "; left: " + left + "px; top: " + top + "px;'></div>";
+			document.getElementById("jailpositionholder").innerHTML += buildPlayerPositionToken(i, left, top);
 
 			if (left === 36) {
 				left = 0;
@@ -1338,7 +1443,7 @@ function updatePosition() {
 
 	for (var i = 1; i < turn; i++) {
 		if (player[i].jail) {
-			document.getElementById("jailpositionholder").innerHTML += "<div class='cell-position' title='" + player[i].name + "' style='background-color: " + player[i].color + "; left: " + left + "px; top: " + top + "px;'></div>";
+			document.getElementById("jailpositionholder").innerHTML += buildPlayerPositionToken(i, left, top);
 			if (left === 36) {
 				left = 0;
 				top = 41;
@@ -1478,6 +1583,8 @@ function updateDice() {
 		element0.title = "Die";
 		element1.title = "Die";
 	}
+
+	animateBoardDice(die0, die1);
 }
 
 function updateOwned() {
@@ -2528,25 +2635,24 @@ function roll() {
 
 			p.jail = false;
 			p.jailroll = 0;
-			p.position = 10 + die1 + die2;
 			doublecount = 0;
 
 			addAlert(p.name + " rolled doubles to get out of jail.");
 
-			land();
+			movePlayerStepByStep(p, die1 + die2, land);
 		} else {
 			if (p.jailroll === 3) {
 
 				if (p.human) {
 					popup("<p>You must pay the $50 fine.</p>", function() {
 						payfifty();
-						player[turn].position=10 + die1 + die2;
-						land();
+						player[turn].jail = false;
+						movePlayerStepByStep(player[turn], die1 + die2, land);
 					});
 				} else {
 					payfifty();
-					p.position = 10 + die1 + die2;
-					land();
+					p.jail = false;
+					movePlayerStepByStep(p, die1 + die2, land);
 				}
 			} else {
 				$("#landed").show();
@@ -2563,17 +2669,8 @@ function roll() {
 	} else {
 		updateDice(die1, die2);
 
-		// Move player
-		p.position += die1 + die2;
-
-		// Collect $200 salary as you pass GO
-		if (p.position >= 40) {
-			p.position -= 40;
-			p.money += 200;
-			addAlert(p.name + " collected a $200 salary for passing GO.");
-		}
-
-		land();
+		// Move player one square at a time so the token visibly travels over the board.
+		movePlayerStepByStep(p, die1 + die2, land);
 	}
 }
 
@@ -2832,6 +2929,12 @@ window.onload = function() {
 	$("#nextbutton").click(game.next);
 	$("#noscript").hide();
 	$("#setup, #noF5").show();
+
+	$("<div>", {id: "board-dice-tray", "class": "board-dice-tray"})
+		.append("<img id='board-die0' class='board-die' src='images/Die_1.png' alt='1' />")
+		.append("<img id='board-die1' class='board-die' src='images/Die_1.png' alt='1' />")
+		.appendTo("body");
+	$(window).on("resize scroll", positionBoardDiceTray);
 
 	var enlargeWrap = document.body.appendChild(document.createElement("div"));
 
