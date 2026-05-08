@@ -1177,6 +1177,87 @@ function Trade(initiator, recipient, money, property, communityChestJailCard, ch
 var player = [];
 var pcount;
 var turn = 0, doublecount = 0;
+
+function translateGameText(text) {
+	var translated = text;
+	var dictionary = {
+		"Auction": "Subasta",
+		"Highest Bid": "Puja más alta",
+		"N/A": "N/D",
+		"Bid": "Pujar",
+		"Pass": "Pasar",
+		"Exit Auction": "Salir de la subasta",
+		"Lanzar dados": "Lanzar dados",
+		"Lanzar otra vez": "Lanzar otra vez",
+		"Terminar turno": "Terminar turno",
+		"Resign": "Rendirse",
+		"Buy": "Comprar",
+		"Manage": "Gestionar",
+		"Trade": "Intercambiar",
+		"View stats": "Ver estadísticas",
+		"Buy house": "Comprar casa",
+		"Sell house": "Vender casa",
+		"Mortgage": "Hipotecar",
+		"Use Card": "Usar tarjeta",
+		"Pay $50 fine": "Pagar multa de $50",
+		"Estás en la cárcel.": "Estás en la cárcel.",
+		"You must pay the $50 fine.": "Debes pagar la multa de $50.",
+		"Go to jail. Go directly to Jail. Do not pass GO. Do not collect $200.": "Ve a la cárcel. Ve directamente a la cárcel. No pases por SALIDA. No cobres $200.",
+		"You rolled doubles three times in a row. Go to jail.": "Sacaste dobles tres veces seguidas. Ve a la cárcel.",
+		"Sacaste dobles. Lanza otra vez.": "Sacaste dobles. Lanza otra vez.",
+		"Termina el turno y pasa al siguiente jugador.": "Termina el turno y pasa al siguiente jugador.",
+		"Lanza los dados y mueve tu ficha.": "Lanza los dados y mueve tu ficha.",
+		"Lanza los dados. Si sacas dobles, saldrás de la cárcel.": "Lanza los dados. Si sacas dobles, saldrás de la cárcel.",
+		"NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.": "NOTA: si no sacas dobles después de este lanzamiento, <i>debes</i> pagar la multa de $50."
+	};
+
+	for (var phrase in dictionary) {
+		translated = translated.split(phrase).join(dictionary[phrase]);
+	}
+
+	translated = translated
+		.replace(/It is (.+)'s turn\./, "Turno de $1.")
+		.replace(/(.+) rolled (\d+) - doubles\./, "$1 lanzó $2 - dobles.")
+		.replace(/(.+) rolled (\d+)\./, "$1 lanzó $2.")
+		.replace(/(.+) rolled doubles three times in a row\./, "$1 sacó dobles tres veces seguidas.")
+		.replace(/(.+) rolled doubles to get out of jail\./, "$1 sacó dobles para salir de la cárcel.")
+		.replace(/This is (.+)'s first turn in jail\./, "Este es el primer turno de $1 en la cárcel.")
+		.replace(/This is (.+)'s second turn in jail\./, "Este es el segundo turno de $1 en la cárcel.")
+		.replace(/This is (.+)'s third turn in jail\./, "Este es el tercer turno de $1 en la cárcel.")
+		.replace(/(.+) paid \$(\d+) rent to (.+)\./, "$1 pagó $ $2 de alquiler a $3.")
+		.replace(/You landed on (.+)\. (.+) collected \$(\d+) rent\./, "Caíste en $1. $2 cobró $ $3 de alquiler.")
+		.replace(/You landed on (.+)\. Property is mortgaged; no rent was collected\./, "Caíste en $1. La propiedad está hipotecada; no se cobró alquiler.")
+		.replace(/(.+), you don't have any properties\./, "$1, no tienes propiedades.")
+		.replace(/(.+) bought (.+) for \$(\d+)\./, "$1 compró $2 por $ $3.")
+		.replace(/(.+) paid \$(\d+) for landing on (.+)\./, "$1 pagó $ $2 por caer en $3.")
+		.replace(/You landed on (.+)\. Pay \$(\d+)\./, "Caíste en $1. Paga $ $2.")
+		.replace(/(.+), it is your turn to bid\./, "$1, es tu turno para pujar.")
+		.replace(/(.+) exited the auction\./, "$1 salió de la subasta.")
+		.replace(/(.+) passed\./, "$1 pasó.")
+		.replace(/(.+) bid \$(\d+)\./, "$1 pujó $ $2.")
+		.replace(/(.+) received \$(\d+) from (.+)\./, "$1 recibió $ $2 de $3.")
+		.replace(/(.+) lost \$(\d+) from (.+)\./, "$1 perdió $ $2 por $3.")
+		.replace(/(.+) lost \$(\d+) to (.+)\./, "$1 perdió $ $2 por $3.")
+		.replace(/(.+) was sent directly to jail\./, "$1 fue enviado directamente a la cárcel.")
+		.replace(/(.+) collected a \$200 salary for passing GO\./, "$1 cobró $$200 de salario por pasar por SALIDA.")
+		.replace(/(.+) paid the \$50 fine to get out of jail\./, "$1 pagó la multa de $$50 para salir de la cárcel.")
+		.replace(/(.+) used a "Get Out of Jail Free" card\./, '$1 usó una tarjeta de "Salir gratis de la cárcel".')
+		.replace(/(.+) received a "Get Out of Jail Free" card from (.+)\./, '$1 recibió una tarjeta de "Salir gratis de la cárcel" de $2.')
+		.replace(/You need \$(\d+) more to unmortgage (.+)\./, "Necesitas $ $1 más para cancelar la hipoteca de $2.")
+		.replace(/(.+), are you sure you want to unmortgage (.+) for \$(\d+)\?/, "$1, ¿seguro que quieres cancelar la hipoteca de $2 por $ $3?")
+		.replace(/(.+), are you sure you want to mortgage (.+) for \$(\d+)\?/, "$1, ¿seguro que quieres hipotecar $2 por $ $3?")
+		.replace(/You need \$(\d+) more to buy a hotel for (.+)\./, "Necesitas $ $1 más para comprar un hotel para $2.")
+		.replace(/You need \$(\d+) more to buy a house for (.+)\./, "Necesitas $ $1 más para comprar una casa para $2.")
+		.replace(/All 32 houses are owned\. You must wait until one becomes available\./, "Las 32 casas están ocupadas. Debes esperar a que haya una disponible.")
+		.replace(/All 12 hotels are owned\. You must wait until one becomes available\./, "Los 12 hoteles están ocupados. Debes esperar a que haya uno disponible.");
+
+	return translated.replace(/\$ (\d+)/g, "$$$1");
+}
+
+function localizeElementText(element, text) {
+	element.innerHTML = translateGameText(text);
+}
+
 // Overwrite an array with numbers from one to the array's length in a random order.
 Array.prototype.randomize = function(length) {
 	length = (length || this.length);
@@ -1221,6 +1302,8 @@ Array.prototype.randomize = function(length) {
 function addAlert(alertText) {
 	$alert = $("#alert");
 
+	alertText = translateGameText(alertText);
+
 	$(document.createElement("div")).text(alertText).appendTo($alert);
 
 	// Animate scrolling down alert element.
@@ -1232,7 +1315,7 @@ function addAlert(alertText) {
 }
 
 function popup(HTML, action, option) {
-	document.getElementById("popuptext").innerHTML = HTML;
+	document.getElementById("popuptext").innerHTML = translateGameText(HTML);
 	document.getElementById("popup").style.width = "300px";
 	document.getElementById("popup").style.top = "0px";
 	document.getElementById("popup").style.left = "0px";
@@ -1260,7 +1343,7 @@ function popup(HTML, action, option) {
 
 	// Ok
 	} else if (option !== "blank") {
-		$("#popuptext").append("<div><input type='button' value='OK' id='popupclose' /></div>");
+		$("#popuptext").append("<div><input type='button' value='Aceptar' id='popupclose' /></div>");
 		$("#popupclose").focus();
 
 		$("#popupclose").on("click", function() {
@@ -1340,6 +1423,39 @@ function movePlayerStepByStep(activePlayer, spaces, onComplete) {
 	window.setTimeout(moveOneSquare, movementDelay);
 }
 
+function buildDieCube(element) {
+	if (!element || element.querySelector(".die-cube")) {
+		return;
+	}
+
+	element.innerHTML = "";
+
+	var cube = element.appendChild(document.createElement("div"));
+	cube.className = "die-cube";
+
+	for (var face = 1; face <= 6; face++) {
+		var faceElement = cube.appendChild(document.createElement("div"));
+		faceElement.className = "die-face die-face-" + face;
+
+		if (face === 3) {
+			faceElement.appendChild(document.createElement("span")).className = "die-pip";
+		}
+	}
+}
+
+function setDieValue(element, value) {
+	if (!element) {
+		return;
+	}
+
+	buildDieCube(element);
+	element.className = element.className.replace(/\bdie-value-\d\b/g, "");
+	element.classList.remove("die-no-img");
+	element.classList.add("die-value-" + value);
+	element.setAttribute("aria-label", "Dado con " + value);
+	element.title = "Dado (" + value + " puntos)";
+}
+
 function positionBoardDiceTray() {
 	var board = document.getElementById("board");
 	var tray = document.getElementById("board-dice-tray");
@@ -1364,13 +1480,8 @@ function animateBoardDice(die0, die1) {
 	}
 
 	positionBoardDiceTray();
-
-	boardDie0.src = "images/Die_" + die0 + ".png";
-	boardDie0.alt = die0;
-	boardDie0.title = "Die (" + die0 + " spots)";
-	boardDie1.src = "images/Die_" + die1 + ".png";
-	boardDie1.alt = die1;
-	boardDie1.title = "Die (" + die1 + " spots)";
+	setDieValue(boardDie0, die0);
+	setDieValue(boardDie1, die1);
 
 	tray.classList.remove("board-dice-roll");
 	void tray.offsetWidth;
@@ -1380,7 +1491,7 @@ function animateBoardDice(die0, die1) {
 	window.clearTimeout(tray.hideTimeout);
 	tray.hideTimeout = window.setTimeout(function() {
 		tray.style.display = "none";
-	}, 1400);
+	}, 1500);
 }
 
 function updatePosition() {
@@ -1549,41 +1660,10 @@ function updateDice() {
 	$("#die0").show();
 	$("#die1").show();
 
+	setDieValue(element0, die0);
+	setDieValue(element1, die1);
 	animateDiceElement(element0);
 	animateDiceElement(element1);
-
-	if (document.images) {
-		element0.classList.remove("die-no-img");
-		element1.classList.remove("die-no-img");
-
-		element0.title = "Die (" + die0 + " spots)";
-		element1.title = "Die (" + die1 + " spots)";
-
-		if (element0.firstChild) {
-			element0 = element0.firstChild;
-		} else {
-			element0 = element0.appendChild(document.createElement("img"));
-		}
-
-		element0.src = "images/Die_" + die0 + ".png";
-		element0.alt = die0;
-
-		if (element1.firstChild) {
-			element1 = element1.firstChild;
-		} else {
-			element1 = element1.appendChild(document.createElement("img"));
-		}
-
-		element1.src = "images/Die_" + die1 + ".png";
-		element1.alt = die1;
-	} else {
-		element0.textContent = die0;
-		element1.textContent = die1;
-
-		element0.title = "Die";
-		element1.title = "Die";
-	}
-
 	animateBoardDice(die0, die1);
 }
 
@@ -1955,13 +2035,13 @@ function subtractamount(amount, cause) {
 function gotojail() {
 	var p = player[turn];
 	addAlert(p.name + " was sent directly to jail.");
-	document.getElementById("landed").innerHTML = "You are in jail.";
+	document.getElementById("landed").innerHTML = "Estás en la cárcel.";
 
 	p.jail = true;
 	doublecount = 0;
 
-	document.getElementById("nextbutton").value = "End turn";
-	document.getElementById("nextbutton").title = "End turn and advance to the next player.";
+	document.getElementById("nextbutton").value = "Terminar turno";
+	document.getElementById("nextbutton").title = "Termina el turno y pasa al siguiente jugador.";
 
 	if (p.human) {
 		document.getElementById("nextbutton").focus();
@@ -2576,8 +2656,8 @@ function roll() {
 	if (p.human) {
 		document.getElementById("nextbutton").focus();
 	}
-	document.getElementById("nextbutton").value = "End turn";
-	document.getElementById("nextbutton").title = "End turn and advance to the next player.";
+	document.getElementById("nextbutton").value = "Terminar turno";
+	document.getElementById("nextbutton").title = "Termina el turno y pasa al siguiente jugador.";
 
 	game.rollDice();
 	var die1 = game.getDie(1);
@@ -2595,8 +2675,8 @@ function roll() {
 		updateDice(die1, die2);
 
 		if (doublecount < 3) {
-			document.getElementById("nextbutton").value = "Roll again";
-			document.getElementById("nextbutton").title = "You threw doubles. Roll again.";
+			document.getElementById("nextbutton").value = "Lanzar otra vez";
+			document.getElementById("nextbutton").title = "Sacaste dobles. Lanza otra vez.";
 
 		// If player rolls doubles three times in a row, send him to jail
 		} else if (doublecount === 3) {
@@ -2615,8 +2695,8 @@ function roll() {
 			return;
 		}
 	} else {
-		document.getElementById("nextbutton").value = "End turn";
-		document.getElementById("nextbutton").title = "End turn and advance to the next player.";
+		document.getElementById("nextbutton").value = "Terminar turno";
+		document.getElementById("nextbutton").title = "Termina el turno y pasa al siguiente jugador.";
 		doublecount = 0;
 	}
 
@@ -2656,7 +2736,7 @@ function roll() {
 				}
 			} else {
 				$("#landed").show();
-				document.getElementById("landed").innerHTML = "You are in jail.";
+				document.getElementById("landed").innerHTML = "Estás en la cárcel.";
 
 				if (!p.human) {
 					popup(p.AI.alertList, game.next);
@@ -2701,28 +2781,28 @@ function play() {
 	if (p.human) {
 		document.getElementById("nextbutton").focus();
 	}
-	document.getElementById("nextbutton").value = "Roll Dice";
-	document.getElementById("nextbutton").title = "Roll the dice and move your token accordingly.";
+	document.getElementById("nextbutton").value = "Lanzar dados";
+	document.getElementById("nextbutton").title = "Lanza los dados y mueve tu ficha.";
 
 	$("#die0").hide();
 	$("#die1").hide();
 
 	if (p.jail) {
 		$("#landed").show();
-		document.getElementById("landed").innerHTML = "You are in jail.<input type='button' title='Pay $50 fine to get out of jail immediately.' value='Pay $50 fine' onclick='payfifty();' />";
+		document.getElementById("landed").innerHTML = "Estás en la cárcel.<input type='button' title='Paga una multa de $50 para salir de inmediato.' value='Pagar multa de $50' onclick='payfifty();' />";
 
 		if (p.communityChestJailCard || p.chanceJailCard) {
-			document.getElementById("landed").innerHTML += "<input type='button' id='gojfbutton' title='Use &quot;Get Out of Jail Free&quot; card.' onclick='useJailCard();' value='Use Card' />";
+			document.getElementById("landed").innerHTML += "<input type='button' id='gojfbutton' title='Usar tarjeta &quot;Salir gratis de la cárcel&quot;.' onclick='useJailCard();' value='Usar tarjeta' />";
 		}
 
-		document.getElementById("nextbutton").title = "Roll the dice. If you throw doubles, you will get out of jail.";
+		document.getElementById("nextbutton").title = "Lanza los dados. Si sacas dobles, saldrás de la cárcel.";
 
 		if (p.jailroll === 0)
 			addAlert("This is " + p.name + "'s first turn in jail.");
 		else if (p.jailroll === 1)
 			addAlert("This is " + p.name + "'s second turn in jail.");
 		else if (p.jailroll === 2) {
-			document.getElementById("landed").innerHTML += "<div>NOTE: If you do not throw doubles after this roll, you <i>must</i> pay the $50 fine.</div>";
+			document.getElementById("landed").innerHTML += "<div>NOTA: si no sacas dobles después de este lanzamiento, <i>debes</i> pagar la multa de $50.</div>";
 			addAlert("This is " + p.name + "'s third turn in jail.");
 		}
 
@@ -2930,9 +3010,9 @@ window.onload = function() {
 	$("#noscript").hide();
 	$("#setup, #noF5").show();
 
-	$("<div>", {id: "board-dice-tray", "class": "board-dice-tray"})
-		.append("<img id='board-die0' class='board-die' src='images/Die_1.png' alt='1' />")
-		.append("<img id='board-die1' class='board-die' src='images/Die_1.png' alt='1' />")
+	$("<div>", {id: "board-dice-tray", "class": "board-dice-tray", "aria-label": "Dados animados"})
+		.append("<div id='board-die0' class='board-die die die-value-1' role='img' aria-label='Dado con 1'></div>")
+		.append("<div id='board-die1' class='board-die die die-value-1' role='img' aria-label='Dado con 1'></div>")
 		.appendTo("body");
 	$(window).on("resize scroll", positionBoardDiceTray);
 
